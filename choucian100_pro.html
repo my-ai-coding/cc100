@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>靈籤指引｜一百籤</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&display=swap">
+<style>
+:root{
+  --bg:#f3eee4;--paper:#fffdf8;--paper-2:#f8f3e9;--ink:#30251d;
+  --muted:#817366;--red:#9d302b;--red-dark:#76221f;--gold:#ad8745;
+  --gold-soft:#ddc99e;--line:#e5dac7;--shadow:0 18px 55px rgba(66,42,22,.10);
+  color-scheme:light;box-sizing:border-box;
+  font-family:"Noto Serif TC","Songti TC","PMingLiU","MingLiU",serif;
+}
+:root[data-theme="dark"]{
+  --bg:#171614;--paper:#24211d;--paper-2:#2d2822;--ink:#eee5d6;
+  --muted:#b5a795;--red:#d66a5d;--red-dark:#a84940;--gold:#d5b16c;
+  --gold-soft:#665638;--line:#494035;--shadow:0 18px 55px rgba(0,0,0,.28);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;min-height:100vh;background:
+  radial-gradient(ellipse at 50% -10%,rgba(173,135,69,.13),transparent 48%),
+  var(--bg);color:var(--ink);line-height:1.8}
+button,input{font:inherit}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+main{width:min(100% - 32px,620px);margin:0 auto;padding:30px 0 56px}
+.hero{text-align:center;padding:12px 12px 22px;position:relative}
+.kicker{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold);font-size:.72rem;letter-spacing:.28em;font-weight:600}
+.kicker:before,.kicker:after{content:"";width:34px;height:1px;background:var(--gold-soft)}
+h1{font-size:clamp(2rem,7vw,2.7rem);font-weight:900;letter-spacing:.42em;text-indent:.42em;margin:7px 0 2px;color:var(--red)}
+.subtitle{color:var(--muted);font-size:.9rem;letter-spacing:.12em;margin:0}
+.hero-mark{width:58px;height:58px;border:1px solid var(--gold-soft);border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;color:var(--gold);font-size:1.6rem;position:relative}
+.hero-mark:before{content:"";position:absolute;inset:5px;border:1px solid var(--gold-soft);border-radius:50%}
+nav{display:flex;justify-content:center;gap:8px;margin:0 auto 20px;padding:5px;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;width:max-content;max-width:100%}
+nav button{border:0;background:transparent;color:var(--muted);padding:8px 25px;border-radius:999px;cursor:pointer;font-size:.9rem;letter-spacing:.12em;transition:.2s}
+nav button[aria-selected="true"]{background:var(--red);color:#fff;box-shadow:0 4px 12px rgba(157,48,43,.2)}
+.toolbar{position:absolute;right:0;top:0}
+.theme-toggle{border:1px solid var(--line);background:var(--paper);color:var(--muted);border-radius:50%;width:38px;height:38px;cursor:pointer}
+.note{text-align:center;color:var(--muted);font-size:.84rem;margin:0 0 14px}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.panel:before{content:"";position:absolute;inset:8px;border:1px solid var(--line);border-radius:14px;pointer-events:none;opacity:.7}
+.stage{display:flex;justify-content:center;align-items:center;height:205px;position:relative;z-index:1}
+#tube{width:148px;overflow:visible;transform-origin:50% 90%;filter:drop-shadow(0 9px 8px rgba(68,36,17,.13))}
+#tube.shake{animation:shake .9s ease-in-out}
+@keyframes shake{0%,100%{transform:rotate(0)}15%{transform:rotate(-16deg)}30%{transform:rotate(14deg)}45%{transform:rotate(-12deg)}60%{transform:rotate(10deg)}75%{transform:rotate(-6deg)}}
+.ask{display:flex;flex-direction:column;gap:12px;margin:4px auto 0;max-width:430px;position:relative;z-index:1}
+.ask label{font-size:.82rem;color:var(--muted);letter-spacing:.08em}
+input{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:10px;background:var(--paper-2);color:var(--ink);font-size:.95rem}
+input::placeholder{color:var(--muted);opacity:.75}
+.go{font-weight:700;letter-spacing:.45em;text-indent:.45em;padding:13px 18px;border:1px solid var(--red);border-radius:10px;background:linear-gradient(135deg,var(--red),var(--red-dark));color:#fff;cursor:pointer;box-shadow:0 7px 18px rgba(157,48,43,.18);transition:transform .2s,box-shadow .2s}
+.go:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(157,48,43,.25)}
+.go:disabled{opacity:.6;cursor:wait;transform:none}
+.hint{text-align:center;color:var(--muted);font-size:.75rem;margin:13px 0 0;position:relative;z-index:1}
+.result{margin-top:24px;display:grid;grid-template-columns:1fr;gap:18px;background:var(--paper);border:1px solid var(--gold-soft);border-radius:18px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.result:before{content:"";position:absolute;inset:7px;border:1px solid var(--line);border-radius:12px;pointer-events:none}
+.stick{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:12px 8px 18px;border-bottom:1px solid var(--gold-soft);min-height:0}
+.stick .no{font-size:.83rem;color:var(--red);font-weight:900;letter-spacing:.22em}
+.stick span:not(.no){font-size:1.2rem;font-weight:700;letter-spacing:.13em;line-height:1.8}
+.detail{position:relative;z-index:1}
+.lv{display:inline-block;font-size:1.08rem;font-weight:900;color:var(--red);margin:0 0 12px;padding:3px 13px;border:1px solid var(--gold-soft);border-radius:999px;letter-spacing:.12em}
+.detail p{margin:8px 0;font-size:.91rem;line-height:1.85}
+.detail b{color:var(--gold);font-weight:700;white-space:nowrap}
+.detail p:nth-child(n+6){padding-top:6px;border-top:1px dashed var(--line)}
+.rec{background:var(--paper);border:1px solid var(--line);border-radius:12px;margin:10px 0;padding:13px 16px;transition:border-color .2s}
+.rec[open]{border-color:var(--gold-soft)}
+.rec summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;list-style:none}
+.rec summary::-webkit-details-marker{display:none}
+.rec summary:after{content:"＋";color:var(--gold);font-size:1rem}
+.rec[open] summary:after{content:"－"}
+.rec summary span{font-weight:700;color:var(--ink)}
+.rec small{color:var(--muted);font-size:.72rem;white-space:nowrap}
+.rec p{margin:9px 0 2px;font-size:.88rem;color:var(--muted)}
+.empty{text-align:center;color:var(--muted);margin:34px 0;padding:30px 12px;background:var(--paper);border:1px dashed var(--line);border-radius:14px}
+.clear{font:inherit;background:transparent;border:1px solid var(--line);border-radius:999px;padding:6px 14px;color:var(--red);cursor:pointer;float:right;font-size:.82rem}
+#hist{padding-top:2px}
+.history-heading{color:var(--muted);font-size:.82rem;letter-spacing:.12em;margin:0 0 12px}
+footer{text-align:center;color:var(--muted);font-size:.72rem;letter-spacing:.08em;margin:25px 0 0}
+footer span{color:var(--gold);padding:0 6px}
+[hidden]{display:none!important}
+@media(min-width:560px){main{padding-top:42px}.panel{padding:28px 34px}.result{grid-template-columns:190px 1fr;gap:24px;padding:28px}.stick{border-bottom:0;border-right:1px solid var(--gold-soft);padding:12px 18px 12px 0;min-height:250px;justify-content:center}.stick span:not(.no){writing-mode:vertical-rl;max-height:210px;letter-spacing:.22em}.detail p{font-size:.9rem}}
+@media(max-width:390px){main{width:min(100% - 22px,620px)}.panel{padding:16px}.result{padding:18px}.rec summary{align-items:flex-start;flex-direction:column;gap:2px}.rec summary:after{position:absolute;right:28px}.toolbar{right:2px}.theme-toggle{width:34px;height:34px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="toolbar"><button class="theme-toggle" id="themeToggle" type="button" aria-label="切換深色模式" title="切換深色模式">◐</button></div>
+    <div class="hero-mark" aria-hidden="true">籤</div>
+    <div class="kicker">心誠則靈・靜心祈願</div>
+    <h1>靈籤指引</h1>
+    <p class="subtitle">一念至誠・一籤一悟</p>
+  </header>
+  <nav role="tablist" aria-label="主要功能">
+    <button role="tab" id="t0" aria-selected="true">抽籤</button>
+    <button role="tab" id="t1" aria-selected="false">歷史</button>
+  </nav>
+
+  <section id="p0">
+    <p class="note">請先靜心默念所求之事，再擲出一支籤詩。</p>
+    <div class="panel">
+    <div class="stage">
+      <svg id="tube" viewBox="0 0 160 200" aria-hidden="true">
+        <g fill="var(--gold)">
+          <rect x="52" y="6" width="9" height="90" rx="2" transform="rotate(-8 56 90)"/>
+          <rect x="72" y="0" width="9" height="96" rx="2" transform="rotate(-2 76 90)"/>
+          <rect x="92" y="10" width="9" height="86" rx="2" transform="rotate(5 96 90)"/>
+          <rect x="108" y="18" width="9" height="78" rx="2" transform="rotate(11 112 90)"/>
+        </g>
+        <g fill="var(--red)">
+          <rect x="52" y="6" width="9" height="14" rx="2" transform="rotate(-8 56 90)"/>
+          <rect x="72" y="0" width="9" height="14" rx="2" transform="rotate(-2 76 90)"/>
+          <rect x="92" y="10" width="9" height="14" rx="2" transform="rotate(5 96 90)"/>
+          <rect x="108" y="18" width="9" height="14" rx="2" transform="rotate(11 112 90)"/>
+        </g>
+        <rect x="32" y="84" width="96" height="112" rx="10" fill="var(--red)"/>
+        <rect x="32" y="100" width="96" height="3" fill="var(--gold)"/>
+        <rect x="32" y="177" width="96" height="3" fill="var(--gold)"/>
+        <text x="80" y="153" text-anchor="middle" font-size="44" font-weight="900" fill="var(--gold)" font-family="Noto Serif TC,serif">籤</text>
+      </svg>
+    </div>
+    <div class="ask">
+      <label for="q">心中所求（選填）</label>
+      <input id="q" type="text" maxlength="60" placeholder="例如：學業、工作、家庭、感情……" aria-label="心中所問之事">
+      <button class="go" id="go">誠心求籤</button>
+    </div>
+    <p class="hint">每次抽籤皆為隨機結果，請以理性態度參考籤意。</p>
+    </div>
+    <div id="out" aria-live="polite"></div>
+  </section>
+
+  <section id="p1" hidden>
+    <p class="history-heading">過往求籤紀錄・僅儲存於此裝置</p>
+    <div id="hist"></div>
+  </section>
+  <footer>傳統文化數位呈現 <span>✦</span> 籤意供參・人生由己</footer>
+</main>
+
+<script>
+var FORTUNES = [
+ {id:1,lv:"上上",poem:["春風得意馬蹄疾","一日看盡長安花"],all:"運勢極佳，努力即將開花結果。",career:"有升遷或成功的機會。",love:"感情順利，可主動表達。",wealth:"財運亨通，但勿貪多。"},
+ {id:2,lv:"上吉",poem:["雲開月現照前程","貴人相助事能成"],all:"困難將散去，會有貴人幫忙。",career:"主動求助會有收穫。",love:"有緣人將出現。",wealth:"穩健投資可得利。"},
+ {id:3,lv:"中吉",poem:["守得雲開見月明","耐心等待終有成"],all:"時機未到，保持耐心。",career:"按部就班，不宜躁進。",love:"感情需要時間培養。",wealth:"小有進帳，宜儲蓄。"},
+ {id:4,lv:"中平",poem:["行舟逆水需用力","莫待風來始揚帆"],all:"凡事靠自己努力，沒有捷徑。",career:"多學習，充實自己。",love:"多溝通，避免誤會。",wealth:"收支平衡，勿衝動消費。"},
+ {id:5,lv:"小凶",poem:["山重水複疑無路","靜心思考可轉機"],all:"目前有阻礙，但並非無解。",career:"遇事先冷靜，三思後行。",love:"避免爭吵，給彼此空間。",wealth:"不宜大額支出或借貸。"},
+ {id:6,lv:"上吉",poem:["桃花映水笑春風","良緣天定不須忙"],all:"人緣與感情運都不錯。",career:"合作順利，多與人交流。",love:"有望遇見或深化好緣分。",wealth:"財運平穩。"},
+ {id:7,lv:"中吉",poem:["千里之行始足下","一步一印見真章"],all:"現在做的準備，日後都會派上用場。",career:"先把基礎打穩。",love:"真誠比技巧重要。",wealth:"積少成多。"},
+ {id:8,lv:"中平",poem:["月有陰晴圓缺時","凡事順勢莫強求"],all:"起伏是常態，不必過度擔心。",career:"暫時守成為宜。",love:"順其自然。",wealth:"保守為上。"},
+ {id:9,lv:"上上",poem:["金鑰開門迎曉日","萬事如意步步高"],all:"諸事順遂，宜把握眼前機會。",career:"有大展身手的機會。",love:"良緣成就，可談婚嫁。",wealth:"財源廣進，宜妥善規劃。"},
+ {id:10,lv:"上上",poem:["紫氣東來福自臨","心誠所願皆能成"],all:"心誠則靈，所求有望實現。",career:"計畫可順利推進。",love:"真心相待得回報。",wealth:"正財穩進，偏財不宜貪。"},
+ {id:11,lv:"上吉",poem:["舟過重山風正順","揚帆直下見前程"],all:"阻礙已過，前路漸開。",career:"新階段即將展開。",love:"關係更進一步。",wealth:"收入漸增。"},
+ {id:12,lv:"上吉",poem:["暗室燈明識路遠","良師益友伴同行"],all:"有人指點，少走冤枉路。",career:"請益前輩有助益。",love:"朋友之中或有緣分。",wealth:"合夥可成，須立清楚約定。"},
+ {id:13,lv:"上吉",poem:["雨後青山分外翠","新枝破土正逢春"],all:"舊事已了，新機萌發。",career:"適合轉換跑道或開新局。",love:"走出過去，迎來新緣。",wealth:"舊帳清償，財務轉好。"},
+ {id:14,lv:"中吉",poem:["溪水潺潺終入海","日積月累自成河"],all:"持之以恆，成果自然累積。",career:"穩定發揮，口碑漸佳。",love:"細水長流最長久。",wealth:"長期儲蓄為宜。"},
+ {id:15,lv:"中吉",poem:["閒雲野鶴無拘束","心定身安福自來"],all:"心境平穩，福氣隨之而來。",career:"保持步調，勿與人比較。",love:"不必強求，自在相處。",wealth:"知足常樂。"},
+ {id:16,lv:"中吉",poem:["一燈如豆照歸途","雖小光明不負人"],all:"雖然進展緩慢，方向正確。",career:"小成果值得肯定。",love:"小小心意最動人。",wealth:"小額穩進。"},
+ {id:17,lv:"中吉",poem:["春耕夏耘秋成熟","順時而行事自通"],all:"凡事有時序，順著節奏走。",career:"把握時機，按季節規劃。",love:"時機成熟再表態。",wealth:"秋後有收成。"},
+ {id:18,lv:"中吉",poem:["竹影掃階塵不動","靜觀其變自安然"],all:"不必急著回應，靜觀更有利。",career:"先觀察再決定。",love:"給彼此一點時間。",wealth:"不躁進則無損。"},
+ {id:19,lv:"中平",poem:["橋頭柳色半青黃","進退之間費思量"],all:"正站在選擇的路口，需多方評估。",career:"列出利弊再決定。",love:"心意未明，宜坦誠溝通。",wealth:"收支宜精算。"},
+ {id:20,lv:"中平",poem:["風起浪生舟自穩","掌舵在手莫心驚"],all:"外界雖有波動，自己穩住就好。",career:"專注本分，不受流言影響。",love:"別被外人意見左右。",wealth:"不隨市場起舞。"},
+ {id:21,lv:"中平",poem:["老樹新芽遲未發","養根蓄力待時來"],all:"現在是蓄力期，不必焦急。",career:"進修、充電的好時機。",love:"先經營好自己。",wealth:"暫無大進，亦無大損。"},
+ {id:22,lv:"中平",poem:["石上流泉聲細細","日久方知水有源"],all:"好壞需時間驗證，不要輕下結論。",career:"長期表現才見真章。",love:"相處久了才看得清。",wealth:"觀望為佳。"},
+ {id:23,lv:"中平",poem:["東籬菊綻待霜降","晚成之果更甘香"],all:"大器晚成，不必羨慕他人的進度。",career:"屬於慢熟型的發展。",love:"晚一點到來的緣分更穩。",wealth:"後期漸入佳境。"},
+ {id:24,lv:"小凶",poem:["烏雲蔽月暫無光","莫向暗中冒險行"],all:"近期判斷易受影響，不宜冒險。",career:"避免倉促決定。",love:"言語克制，勿說氣話。",wealth:"避免投機與借貸。"},
+ {id:25,lv:"小凶",poem:["逆風行舟力難進","暫泊港灣待轉晴"],all:"時機不佳，暫時停下也是智慧。",career:"暫緩重大計畫。",love:"先冷靜，再溝通。",wealth:"減少非必要開銷。"},
+ {id:26,lv:"小凶",poem:["霜重枝低花未放","保身守分度寒冬"],all:"低潮期宜保存實力。",career:"守住現有的工作與關係。",love:"多關心家人與朋友。",wealth:"守住本金。"},
+ {id:27,lv:"下下",poem:["夜行遇雨路難分","止步回頭莫強行"],all:"此時不宜硬撐，退一步更安全。",career:"重大事項請延後。",love:"暫停爭執，先照顧自己。",wealth:"切勿冒險，保守為要。"},
+ {id:28,lv:"下下",poem:["殘燈孤影風吹急","靜守一隅待天明"],all:"最難的時刻即將過去，撐住便會轉機。",career:"先求穩，不求進。",love:"找信任的人談談。",wealth:"減少支出，安穩度過。"}
+];
+var ITEMS = ["功名","家宅","疾病","出行","失物","官司","尋人","六甲"];
+var EXTRA = {
+1:["名登高榜","門庭興旺","漸漸痊癒","一路順風","可以尋回","得理必勝","即有音訊","順產大吉"],
+2:["有貴人薦舉","家宅平安","遇良醫得癒","出行有利","託人可尋回","和解為宜","貴人帶來消息","平安順產"],
+3:["稍待時機","平安無事","調養可癒","宜結伴同行","耐心可尋回","宜和解","慢慢有消息","平順"],
+4:["努力可成","安穩度日","注意作息","無大阻礙","難尋，宜再找","宜庭外和解","消息遲緩","宜多休養"],
+5:["暫緩應試","防小口舌","宜及早就醫","宜延期","恐難尋回","不宜興訟","暫無消息","宜謹慎調養"],
+6:["有喜訊傳來","家和事興","病況好轉","出行得助","失物將回","有人相助","不久見面","添喜有望"],
+7:["勤學有成","漸入佳境","持續調養","先備妥再出發","細找可得","證據齊備則勝","已有線索","平穩可期"],
+8:["順其自然","平常度日","不必憂慮","隨緣而行","隨緣","退讓為宜","不必急尋","順其自然"],
+9:["金榜題名","福祿雙全","病除體安","萬里無阻","失而復得","官司大勝","貴人帶回音","喜事臨門"],
+10:["心誠中選","神明保佑","康復有望","誠心出行平安","誠心尋得","公道自明","歸期已近","母子平安"],
+11:["逐步上升","漸趨平順","轉危為安","風順可行","有望尋回","漸見轉機","漸有消息","平安順利"],
+12:["得師指點","貴人入宅","遇良醫","同行有益","託友可得","請人協助得勝","友人知下落","平安順利"],
+13:["重新出發","去舊迎新","舊疾轉好","新路可行","舊處可尋","舊案有轉機","舊友有訊","添新喜"],
+14:["積累有成","安居樂業","久病漸癒","慢行平安","久尋終得","久訟宜和","日久有訊","順利"],
+15:["淡泊自得","清靜平安","靜養可癒","宜悠閒慢行","不急自現","息事寧人","無須強尋","安然"],
+16:["小有進展","小事無礙","小病易癒","短程平安","小物可得","小事可解","略有線索","平安"],
+17:["秋後有望","順時安康","依季調養","擇時而行","時到自得","待時而動","時到有訊","順時而吉"],
+18:["暫守為宜","平靜安穩","靜養得癒","宜觀望再行","靜待自現","靜觀其變","稍安勿躁","平穩"],
+19:["需再斟酌","小有變動","宜再診視","備妥再行","需耐心找","先蒐集證據","方向不明","宜多留意"],
+20:["穩住可成","外擾內安","勿受驚擾","水路宜慎","多方尋找","莫受流言所惑","消息不一","小心為上"],
+21:["尚需蓄力","靜待時機","慢慢調養","暫緩為宜","暫難尋得","暫緩為宜","尚無消息","宜靜養"],
+22:["久後見效","日久安泰","長期調理","不必急行","久後可得","時間見真章","日久有訊","順其自然"],
+23:["大器晚成","後勢漸好","後期漸癒","晚行較順","稍晚尋得","晚段有利","稍晚有訊","晚來有喜"],
+24:["恐有阻礙","防口舌是非","宜早就醫","暫勿遠行","難以尋回","宜避免","暫無下落","謹慎安胎"],
+25:["宜暫停","宜守不宜動","宜靜養","暫緩出行","暫難尋獲","暫緩為宜","稍候再問","宜多休息"],
+26:["暫無機會","守舊安穩","保暖調養","不宜遠行","恐難找回","不宜爭訟","難有消息","保重為上"],
+27:["不宜應試","宜多祈福","速求醫治","取消為佳","恐已遺失","切勿興訟","難以尋得","宜多加小心"],
+28:["不宜強求","守成為上","宜及早就醫","延後再行","暫且放下","退讓和解","耐心等候","靜心養護"]
+};
+function rows(f){
+  var r = [["解籤",f.all],["事業",f.career],["婚姻",f.love],["財運",f.wealth]];
+  (EXTRA[f.base || f.id] || []).forEach(function(t,i){ r.push([ITEMS[i],t]); });
+  return r;
+}
+var RAW = [
+"A旭日初升照萬家，一帆風順渡天涯",
+"B梅開雪後香盈袖，守得清寒見暖春",
+"C山路雖長步步穩，行到半程景更寬",
+"D風平浪靜舟輕過，莫貪遠岸誤歸期",
+"E薄霧籠林迷去路，且停腳步待天晴",
+"B紅線牽來緣已定，青山不改意長存",
+"C倉廩漸豐宜儉用，三年之後見從容",
+"A龍門躍過魚成化，一夕風雷動九州",
+"D春雨綿綿花未盡，閒中思慮勝奔忙",
+"B良田得雨苗初長，勤耕自有滿倉糧",
+"E浮雲遮日心頭亂，閉門理緒莫輕言",
+"C鄰舍和睦家道泰，一枝一葉總相親",
+"B燈花報喜今宵夢，遠客歸來話舊情",
+"D水落石出時未到，何須日日問潮聲",
+"C小橋流水人家靜，守拙安居勝遠遊",
+"F狂風驟起拔高樹，此時避鋒是上謀",
+"B明珠本在塵中蔽，拭去浮灰自放光",
+"C一葉扁舟隨浪穩，何愁前路有波瀾",
+"D荷葉田田不見底，深淺難知宜細量",
+"A彩雲追月來相照，福祿同臨喜滿門",
+"E路滑苔深行宜緩，一步失足損三分",
+"B鵲報枝頭消息好，故人千里有書來",
+"C稻熟需待秋風至，急摘青果味不甘",
+"D門前兩路同歸處，擇一而行莫再疑",
+"B雲間雁字排成陣，同心合力過關山",
+"E殘雪壓枝將欲折，卸重減負可保全",
+"C爐火初溫茶正好，閒談之間事已圓",
+"D月缺終當重作圓，勉強求全反傷懷",
+"B春潮帶雨催花信，新事新機次第來",
+"C竹籬茅舍安然在，不羨高樓萬戶侯",
+"A江山入畫人如意，一路清歌到玉京",
+"E暗礁藏水舟須避，莫逞聰明試險灘",
+"D山深聽得泉聲細，靜坐方知意自寬",
+"B同舟共濟逢風浪，齊心一舉到彼岸",
+"C麥浪翻金豐歲在，勤儉持家福祿長",
+"F寒夜燈殘人獨坐，此關熬過即黎明",
+"D秋葉紛飛隨風去，得失之間莫掛懷",
+"B慈雲護佑平安路，一念誠心天地知",
+"C河清海晏逢時日，安份守己自成家",
+"E暮色蒼茫歸鳥急，宜早回頭莫貪行",
+"D手中好物須珍惜，莫待失時方悔多",
+"B春蠶吐絲將成繭，一朝化蝶展雙翼",
+"C清溪映月波不動，心靜萬事皆從容",
+"A金鼓聲中傳捷報，十年磨劍此時揚",
+"E話出如箭難收回，三思而後方開口",
+"D雲淡風輕天色好，宜靜宜思不宜爭",
+"B橋成兩岸通來往，舊怨新歡盡可和",
+"C老樹根深枝葉茂，守持正道福綿長",
+"D江邊柳岸迎春早，閒步徐行勝疾奔",
+"A星斗滿天明似晝，夜行有伴不孤單",
+"C灶煙裊裊晨炊起，平凡日子最安心",
+"E逆水行舟風又起，暫避鋒芒待轉機",
+"F烏雲壓頂雷聲近，守住門戶莫外行",
+"D兩岸猿聲啼不住，過山方見水天寬",
+"B臘盡春回消息近，枯枝終有綠芽生",
+"C鄰家傳來歡笑語，喜事將臨自有因",
+"D紙鳶高飛線在手，放收之間要拿捏",
+"A福星高照臨門戶，百事和諧萬事興",
+"E水漲河灘船易擱，先停一步免擱淺",
+"C小園種得花千朵，一朵一朵待時開",
+"B良朋遠至殷勤問，一席清談抵萬金",
+"D路遇岔口應停步，問清方向再前行",
+"C舊衣縫補猶堪暖，惜物之人自有福",
+"E空言虛諾難為憑，須憑實據定去留",
+"B山頭日出雲開處，萬里晴光照遠行",
+"A桂子飄香秋月滿，金榜題名衣錦還",
+"C澗水泠泠流不盡，日用有餘何須求",
+"D晨起露濃衣自濕，行路須知待日高",
+"E深潭水靜藏蛟影，莫近險處自生災",
+"B紅燭高燒迎喜氣，良辰吉日結新緣",
+"C柴門半掩迎賓客，粗茶淡飯亦情濃",
+"D高低起伏皆風景，莫因一時定悲歡",
+"F夜雨敲窗愁未盡，安心養息待天明",
+"B谷雨過後苗茁壯，一分耕耘一分收",
+"C秋江月白人歸晚，平安二字勝千金",
+"D書到用時方恨少，今日勤讀不嫌遲",
+"E路邊閒草莫輕折，小事不慎起大非",
+"B蝶舞花叢春意鬧，良辰美景可相邀",
+"A紫微星照吉祥地，萬事順心步步高",
+"C孤燈一點亦能暖，只要心中有指望",
+"D山色空濛雨亦奇，不必晴時方是好",
+"B乘風破浪行千里，明日方知海闊寬",
+"C家和萬事皆興旺，口角之間莫計較",
+"E冬雷隱隱非佳兆，閉門守靜保平安",
+"D錢財如水順流去，節流方能留得住",
+"B路逢貴客相提攜，困頓之中見轉機",
+"C山深有寺鐘聲遠，心定自然無煩憂",
+"E旁人閒語不須聽，是非自有公論明",
+"F事到窮時須退步，一時之敗非終局",
+"D清晨雞唱催人起，早起三分勝別人",
+"B鴻雁南飛迎暖信，故里家人盼歸程",
+"C日長風細閒窗下，一盞清茶度半天",
+"E路遇坎坷須慎步，莫怨天來莫尤人",
+"D山外有山天外天，謙虛自守可長安",
+"B彩虹架起雨初歇，轉瞬之間見晴光",
+"C灶下有火家中暖，粗食亦足養精神",
+"F殘局難為須冷靜，退守方保一線生",
+"B桃李不言春自在，默默耕耘必有成",
+"D流水不爭先後路，順其自然入江河",
+"A圓月當空光滿溢，百年好合福無邊"
+];
+var LVMAP = {A:"上上",B:"上吉",C:"中吉",D:"中平",E:"小凶",F:"下下"};
+(function(){
+  var pools = {}, cnt = {};
+  FORTUNES.forEach(function(b){ (pools[b.lv] = pools[b.lv] || []).push(b); });
+  FORTUNES = RAW.map(function(t,i){
+    var lv = LVMAP[t.charAt(0)], p = pools[lv];
+    cnt[lv] = cnt[lv] || 0;
+    var b = p[cnt[lv]++ % p.length];
+    return {id:i+1, lv:lv, poem:t.slice(1).split("，"), all:b.all, career:b.career, love:b.love, wealth:b.wealth, base:b.id};
+  });
+})();
+var KEY = "choucian100_history";
+
+function load(){
+  try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){ return []; }
+}
+function save(list){
+  try { localStorage.setItem(KEY, JSON.stringify(list)); } catch(e){}
+}
+function byId(id){ return FORTUNES.filter(function(f){return f.id===id;})[0]; }
+function el(tag, cls, text){
+  var n = document.createElement(tag);
+  if(cls) n.className = cls;
+  if(text != null) n.textContent = text;
+  return n;
+}
+function detail(f){
+  var d = el("div","detail");
+  d.appendChild(el("p","lv","第" + f.id + "籤 · " + f.lv));
+  rows(f).forEach(function(r){
+    var p = el("p"); p.appendChild(el("b",null,r[0] + "　")); p.appendChild(document.createTextNode(r[1])); d.appendChild(p);
+  });
+  return d;
+}
+function card(f){
+  var c = el("div","result");
+  var s = el("div","stick");
+  s.appendChild(el("span","no","第" + f.id + "籤"));
+  f.poem.forEach(function(l){ s.appendChild(el("span",null,l)); });
+  c.appendChild(s);
+  c.appendChild(detail(f));
+  return c;
+}
+
+var go = document.getElementById("go"), tube = document.getElementById("tube"), out = document.getElementById("out"), q = document.getElementById("q");
+go.addEventListener("click", function(){
+  go.disabled = true; go.textContent = "搖籤中…"; out.textContent = "";
+  tube.classList.remove("shake"); void tube.getBoundingClientRect(); tube.classList.add("shake");
+  setTimeout(function(){
+    var f = FORTUNES[Math.floor(Math.random()*FORTUNES.length)];
+    out.appendChild(card(f));
+    var list = load(); list.unshift({id:f.id, t:Date.now(), q:q.value.trim()}); save(list);
+    tube.classList.remove("shake");
+    go.disabled = false; go.textContent = "再次求籤";
+  }, 950);
+});
+
+function pad(n){ return n < 10 ? "0" + n : "" + n; }
+function renderHist(){
+  var box = document.getElementById("hist"); box.textContent = "";
+  var list = load();
+  if(!list.length){ box.appendChild(el("p","empty","還沒有抽籤記錄。去搖一支籤吧。")); return; }
+  var clr = el("button","clear","清空記錄");
+  var armed = false, timer;
+  clr.addEventListener("click", function(){
+    if(!armed){
+      armed = true; clr.textContent = "再按一次確認清空";
+      timer = setTimeout(function(){ armed = false; clr.textContent = "清空記錄"; }, 4000);
+      return;
+    }
+    clearTimeout(timer); save([]); renderHist();
+  });
+  box.appendChild(clr);
+  box.appendChild(el("div",null)).style.clear = "both";
+  list.forEach(function(r){
+    var f = byId(r.id); if(!f) return;
+    var d = new Date(r.t);
+    var det = el("details","rec"), sum = el("summary");
+    sum.appendChild(el("span",null,"第" + f.id + "籤 · " + f.lv));
+    sum.appendChild(el("small",null,d.getFullYear() + "-" + pad(d.getMonth()+1) + "-" + pad(d.getDate()) + " " + pad(d.getHours()) + ":" + pad(d.getMinutes())));
+    det.appendChild(sum);
+    if(r.q) det.appendChild(el("p",null,"所問：" + r.q));
+    det.appendChild(el("p",null,f.poem.join("，") + "。"));
+    det.appendChild(el("p",null,"解籤：" + f.all));
+    box.appendChild(det);
+  });
+}
+
+function show(i){
+  document.getElementById("p0").hidden = i !== 0;
+  document.getElementById("p1").hidden = i !== 1;
+  document.getElementById("t0").setAttribute("aria-selected", i === 0);
+  document.getElementById("t1").setAttribute("aria-selected", i === 1);
+  if(i === 1) renderHist();
+}
+document.getElementById("t0").addEventListener("click", function(){ show(0); });
+document.getElementById("t1").addEventListener("click", function(){ show(1); });
+
+(function(){
+  var root = document.documentElement;
+  var toggle = document.getElementById("themeToggle");
+  var saved = null;
+  try { saved = localStorage.getItem("choucian100_theme"); } catch(e) {}
+  if(saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
+  function sync(){
+    var dark = root.getAttribute("data-theme") === "dark";
+    toggle.textContent = dark ? "☼" : "◐";
+    toggle.setAttribute("aria-label", dark ? "切換淺色模式" : "切換深色模式");
+    toggle.title = dark ? "切換淺色模式" : "切換深色模式";
+  }
+  toggle.addEventListener("click", function(){
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    try { localStorage.setItem("choucian100_theme", next); } catch(e) {}
+    sync();
+  });
+  sync();
+})();
+</script>
+</body>
+</html>
